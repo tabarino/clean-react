@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/tabarino/clean-react#readme",
   "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
     "@types/jest": "^29.2.5",
     "@types/node": "^18.11.18",
     "@typescript-eslint/eslint-plugin": "^5.48.0",
@@ -29,7 +30,6 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-n": "^15.6.0",
     "eslint-plugin-promise": "^6.1.1",
-    "faker": "^6.6.6",
     "git-commit-msg-linter": "^4.5.0",
     "husky": "^8.0.0",
     "jest": "^29.3.1",
