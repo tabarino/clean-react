@@ -1,5 +1,6 @@
 {
   "*.{ts,tsx}": [
-    "prettier 'src/**' --fix"
+    "prettier 'src/**' --fix",
+    "yarn test:staged"
   ]
 }
