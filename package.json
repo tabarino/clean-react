@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/tabarino/clean-react/issues"
   },
-  "homepage": "https://github.com/tabarino/clean-react#readme"
+  "homepage": "https://github.com/tabarino/clean-react#readme",
+  "devDependencies": {
+    "git-commit-msg-linter": "^4.5.0"
+  }
 }
