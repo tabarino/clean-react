@@ -20,6 +20,9 @@
     "url": "https://github.com/tabarino/clean-react/issues"
   },
   "homepage": "https://github.com/tabarino/clean-react#readme",
+  "dependencies": {
+    "axios": "^1.2.2"
+  },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
     "@types/jest": "^29.2.5",
