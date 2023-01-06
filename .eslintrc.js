@@ -1,5 +1,11 @@
 module.exports = {
-  extends: 'standard-with-typescript',
+  settings: {
+    react: {
+      version: 'detect',
+    },
+  },
+  extends: ['standard-with-typescript', 'plugin:react/recommended'],
+  plugins: ['react'],
   parserOptions: {
     project: './tsconfig.json',
   },
@@ -14,5 +20,7 @@ module.exports = {
     '@typescript-eslint/consistent-type-definitions': 'off',
     '@typescript-eslint/no-namespace': 'off',
     'import/export': 'off',
+    'react/jsx-uses-react': 'error',
+    'react/jsx-uses-vars': 'error',
   },
 };
