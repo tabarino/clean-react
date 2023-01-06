@@ -1,0 +1,17 @@
+@import '../../styles/colors.scss';
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient($primaryDark, $primary);
+
+  img {
+    margin-top: 40px;
+  }
+
+  h1 {
+    color: $white;
+    margin: 16px 0 40px;
+  }
+}
