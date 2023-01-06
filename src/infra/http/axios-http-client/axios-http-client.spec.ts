@@ -15,10 +15,10 @@ const makeSut = (): SutTypes => {
 }
 
 describe('AxiosHttpClient', () => {
-  test('Should call axios with correct URL', () => {
+  test('Should call axios with correct URL and Verb', () => {
     const url = faker.internet.url();
     const { sut } = makeSut();
     sut.post({ url });
-    expect(mockedAxios).toHaveBeenCalledWith(url);
+    expect(mockedAxios.post).toHaveBeenCalledWith(url);
   });
 });
