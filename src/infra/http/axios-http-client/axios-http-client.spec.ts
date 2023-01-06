@@ -21,10 +21,10 @@ const mockPostRequest = (): HttpPostParams<any> => ({
 });
 
 describe('AxiosHttpClient', () => {
-  test('Should call axios with correct URL and Verb', () => {
+  test('Should call axios with correct values', () => {
     const request = mockPostRequest();
     const { sut } = makeSut();
     sut.post(request);
-    expect(mockedAxios.post).toHaveBeenCalledWith(request.url);
+    expect(mockedAxios.post).toHaveBeenCalledWith(request.url, request.body);
   });
 });
