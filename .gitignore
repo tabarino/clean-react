@@ -6,5 +6,8 @@
 # coverage
 /coverage
 
+# public
+/public/js
+
 # misc
 .DS_Store
