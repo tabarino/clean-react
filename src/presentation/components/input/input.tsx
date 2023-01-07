@@ -17,9 +17,11 @@ const Input: React.FC<Props> = ({ type, name, placeholder }) => {
   }
 
   function handleChange(event: React.FocusEvent<HTMLInputElement>): void {
-    setState({
-      ...state,
-      [event.target.name]: event.target.value,
+    setState((prevState: any) => {
+      return {
+        ...prevState,
+        [event.target.name]: event.target.value,
+      };
     });
   }
 

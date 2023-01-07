@@ -7,7 +7,7 @@ type Props = {
 
 const Spinner: React.FC<Props> = ({ className }) => {
   return (
-    <div className={[styles.spinner, className].join(' ')}>
+    <div data-testid="spinner" className={[styles.spinner, className].join(' ')}>
       <div></div>
       <div></div>
       <div></div>
