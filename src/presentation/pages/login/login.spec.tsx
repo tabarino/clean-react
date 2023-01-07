@@ -14,4 +14,14 @@ describe('Login Component', () => {
     const submitButton = getByTestId('submit') as HTMLButtonElement;
     expect(submitButton.disabled).toBe(true);
   });
+
+  test('Should render inputs as mandatory', () => {
+    const { getByTestId } = render(<Login />);
+    const emailStatus = getByTestId('email-status');
+    const passwordStatus = getByTestId('password-status');
+    expect(emailStatus.title).toBe('Mandatory');
+    expect(emailStatus.textContent).toBe('🔴');
+    expect(passwordStatus.title).toBe('Mandatory');
+    expect(passwordStatus.textContent).toBe('🔴');
+  });
 });
