@@ -2,11 +2,25 @@ import React from 'react';
 import { faker } from '@faker-js/faker';
 import { render, RenderResult, fireEvent, cleanup } from '@testing-library/react';
 import { ValidationSpy } from '@/presentation/mocks';
+import { Authentication, AuthenticationParams } from '@/domain/usecases';
+import { AccountModel } from '@/domain/models';
+import { mockAccountModel } from '@/domain/mocks';
 import Login from './login';
+
+class AuthenticationSpy implements Authentication {
+  account = mockAccountModel();
+  params!: AuthenticationParams;
+
+  async auth(params: AuthenticationParams): Promise<AccountModel | undefined> {
+    this.params = params;
+    return Promise.resolve(this.account);
+  }
+}
 
 type SutTypes = {
   sut: RenderResult;
   validationSpy: ValidationSpy;
+  authenticationSpy: AuthenticationSpy;
 };
 
 type SutParams = {
@@ -15,11 +29,13 @@ type SutParams = {
 
 const makeSut = (params?: SutParams): SutTypes => {
   const validationSpy = new ValidationSpy();
+  const authenticationSpy = new AuthenticationSpy();
   validationSpy.errorMessage = params?.validationError || '';
-  const sut = render(<Login validation={validationSpy} />);
+  const sut = render(<Login validation={validationSpy} authentication={authenticationSpy} />);
   return {
     sut,
     validationSpy,
+    authenticationSpy,
   };
 };
 
@@ -131,5 +147,21 @@ describe('Login Component', () => {
     fireEvent.click(submitButton);
     const spinner = sut.getByTestId('spinner');
     expect(spinner).toBeTruthy();
+  });
+
+  test('Should call authentication with correct values', () => {
+    const { sut, authenticationSpy } = makeSut();
+    const emailInput = sut.getByTestId('email');
+    const email = faker.internet.email();
+    const password = faker.internet.password();
+    fireEvent.input(emailInput, { target: { value: email } });
+    const passwordInput = sut.getByTestId('password');
+    fireEvent.input(passwordInput, { target: { value: password } });
+    const submitButton = sut.getByTestId('submit');
+    fireEvent.click(submitButton);
+    expect(authenticationSpy.params).toEqual({
+      email,
+      password,
+    });
   });
 });
