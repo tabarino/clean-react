@@ -4,7 +4,8 @@ import Context from '@/presentation/contexts/form/form-context';
 import styles from './form-status-styles.scss';
 
 const FormStatus: React.FC = () => {
-  const { isLoading, errorMessage } = useContext(Context);
+  const { state } = useContext(Context);
+  const { isLoading, errorMessage } = state;
 
   return (
     <div data-testid="error-wrap" className={styles.errorWrap}>
