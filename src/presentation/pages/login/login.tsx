@@ -16,7 +16,7 @@ const Login: React.FC<Props> = ({ validation }) => {
     errorMessage: '',
     error: {
       email: '',
-      password: 'Mandatory',
+      password: '',
     },
   });
 
@@ -33,7 +33,15 @@ const Login: React.FC<Props> = ({ validation }) => {
   }, [state.email]);
 
   useEffect(() => {
-    validation.validate('password', state.password);
+    setState((prevState) => {
+      return {
+        ...prevState,
+        error: {
+          email: prevState.error.email,
+          password: validation.validate('password', state.password),
+        },
+      };
+    });
   }, [state.password]);
 
   return (
