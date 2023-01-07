@@ -84,6 +84,16 @@ describe('Login Component', () => {
     expect(passwordStatus.textContent).toBe('🔴');
   });
 
+  test('Should show valid email state if Validation suceeds', () => {
+    const { sut, validationSpy } = makeSut();
+    validationSpy.errorMessage = '';
+    const emailInput = sut.getByTestId('email');
+    fireEvent.input(emailInput, { target: { value: faker.internet.email() } });
+    const emailStatus = sut.getByTestId('email-status');
+    expect(emailStatus.title).toBe('Success');
+    expect(emailStatus.textContent).toBe('🟢');
+  });
+
   test('Should show valid password state if Validation suceeds', () => {
     const { sut, validationSpy } = makeSut();
     validationSpy.errorMessage = '';
@@ -92,5 +102,16 @@ describe('Login Component', () => {
     const passwordStatus = sut.getByTestId('password-status');
     expect(passwordStatus.title).toBe('Success');
     expect(passwordStatus.textContent).toBe('🟢');
+  });
+
+  test('Should enable submit button if form is valid', () => {
+    const { sut, validationSpy } = makeSut();
+    validationSpy.errorMessage = '';
+    const emailInput = sut.getByTestId('email');
+    fireEvent.input(emailInput, { target: { value: faker.internet.email() } });
+    const passwordInput = sut.getByTestId('password');
+    fireEvent.input(passwordInput, { target: { value: faker.internet.password() } });
+    const submitButton = sut.getByTestId('submit') as HTMLButtonElement;
+    expect(submitButton.disabled).toBe(false);
   });
 });
