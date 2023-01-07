@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { Login } from '@/presentation/pages';
+import { Router } from '@/presentation/components';
 
 const main = ReactDOM.createRoot(document.getElementById('main') as HTMLElement);
 main.render(
   <React.StrictMode>
-    <Login />
+    <Router />
   </React.StrictMode>,
 );
