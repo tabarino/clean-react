@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { Footer, FormStatus, Input, LoginHeader } from '@/presentation/components';
-import FormContext, { FormStateProps } from '@/presentation/contexts/form/form-context';
+import FormContext, { formInitialState, FormStateProps } from '@/presentation/contexts/form/form-context';
 import styles from './login-styles.scss';
 
 const Login: React.FC = () => {
   const [state] = useState<FormStateProps>({
-    isLoading: false,
-    errorMessage: '',
+    ...formInitialState,
+    error: {
+      email: 'Mandatory',
+      password: 'Mandatory',
+    },
   });
 
   return (

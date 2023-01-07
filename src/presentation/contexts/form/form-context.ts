@@ -3,11 +3,13 @@ import { createContext } from 'react';
 export type FormStateProps = {
   isLoading: boolean;
   errorMessage: string;
+  error: any;
 };
 
-const defaultFormState: FormStateProps = {
+export const formInitialState: FormStateProps = {
   isLoading: false,
   errorMessage: '',
+  error: {},
 };
 
-export default createContext<FormStateProps>(defaultFormState);
+export default createContext<FormStateProps>(formInitialState);
