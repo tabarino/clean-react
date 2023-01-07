@@ -24,11 +24,11 @@ const Input: React.FC<Props> = ({ type, name, placeholder }) => {
   }
 
   function getTitle(): string {
-    return error[name];
+    return error[name] || 'Success';
   }
 
   function getStatus(): string {
-    return '🔴';
+    return error[name] ? '🔴' : '🟢';
   }
 
   return (
