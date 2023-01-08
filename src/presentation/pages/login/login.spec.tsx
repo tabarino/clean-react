@@ -1,5 +1,6 @@
 import React from 'react';
 import { faker } from '@faker-js/faker';
+import 'jest-localstorage-mock';
 import { render, RenderResult, fireEvent, cleanup, waitFor } from '@testing-library/react';
 import { AuthenticationSpy, ValidationSpy } from '@/presentation/mocks';
 import Login from './login';
@@ -55,6 +56,10 @@ const simulateFieldStatus = (sut: RenderResult, fieldName: string, validationErr
 };
 
 describe('Login Component', () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
   afterEach(cleanup);
 
   test('Should not render spinner and error on start', () => {
@@ -170,10 +175,19 @@ describe('Login Component', () => {
     const error = new InvalidCredentialsError();
     jest.spyOn(authenticationSpy, 'auth').mockReturnValueOnce(Promise.reject(error));
     simulateValidSubmit(sut);
-    await waitFor(() => sut.getByTestId('error-message'));
-    const errorMessage = sut.getByTestId('error-message');
-    expect(errorMessage.textContent).toBe(error.message);
-    const errorWrap = sut.getByTestId('error-wrap');
-    expect(errorWrap.childElementCount).toBe(1);
+    await waitFor(() => {
+      const errorMessage = sut.getByTestId('error-message');
+      expect(errorMessage.textContent).toBe(error.message);
+      const errorWrap = sut.getByTestId('error-wrap');
+      expect(errorWrap.childElementCount).toBe(1);
+    });
+  });
+
+  test('Should add accessToken to local storage on success', async () => {
+    const { sut, authenticationSpy } = makeSut();
+    simulateValidSubmit(sut);
+    await waitFor(() => {
+      expect(localStorage.setItem).toHaveBeenCalledWith('accessToken', authenticationSpy.account.accessToken);
+    });
   });
 });
