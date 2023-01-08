@@ -49,21 +49,31 @@ const Login: React.FC<Props> = ({ validation, authentication }) => {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
 
-    if (state.isLoading || state.error.email || state.error.password) {
-      return;
+    try {
+      if (state.isLoading || state.error.email || state.error.password) {
+        return;
+      }
+
+      setState((prevState) => {
+        return {
+          ...prevState,
+          isLoading: true,
+        };
+      });
+
+      await authentication.auth({
+        email: state.email,
+        password: state.password,
+      });
+    } catch (error) {
+      setState((prevState) => {
+        return {
+          ...prevState,
+          isLoading: false,
+          errorMessage: (error as Error).message,
+        };
+      });
     }
-
-    setState((prevState) => {
-      return {
-        ...prevState,
-        isLoading: true,
-      };
-    });
-
-    await authentication.auth({
-      email: state.email,
-      password: state.password,
-    });
   }
 
   return (
