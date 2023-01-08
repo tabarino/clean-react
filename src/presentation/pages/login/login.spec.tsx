@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import { faker } from '@faker-js/faker';
 import 'jest-localstorage-mock';
 import { render, RenderResult, fireEvent, cleanup, waitFor } from '@testing-library/react';
@@ -20,7 +21,11 @@ const makeSut = (params?: SutParams): SutTypes => {
   const validationSpy = new ValidationSpy();
   const authenticationSpy = new AuthenticationSpy();
   validationSpy.errorMessage = params?.validationError || '';
-  const sut = render(<Login validation={validationSpy} authentication={authenticationSpy} />);
+  const sut = render(
+    <BrowserRouter>
+      <Login validation={validationSpy} authentication={authenticationSpy} />
+    </BrowserRouter>,
+  );
   return {
     sut,
     validationSpy,
@@ -189,5 +194,13 @@ describe('Login Component', () => {
     await waitFor(() => {
       expect(localStorage.setItem).toHaveBeenCalledWith('accessToken', authenticationSpy.account.accessToken);
     });
+  });
+
+  test('Should go to signup page', () => {
+    const { sut } = makeSut();
+    const signup = sut.getByTestId('signup');
+    fireEvent.click(signup);
+    expect(window.history.length).toBe(2);
+    expect(window.location.pathname).toBe('/signup');
   });
 });
