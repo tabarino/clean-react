@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { EmailValidation, RequiredFieldValidation } from '@/validation/validators';
+import { EmailValidation, MinLengthValidation, RequiredFieldValidation } from '@/validation/validators';
 import { ValidationBuilder } from './validation-builder';
 
 describe('Validation Builder', () => {
@@ -13,5 +13,11 @@ describe('Validation Builder', () => {
     const fieldName = faker.database.column();
     const validations = ValidationBuilder.field(fieldName).email().build();
     expect(validations).toEqual([new EmailValidation(fieldName)]);
+  });
+
+  test('Should return MinLengthValidation', () => {
+    const fieldName = faker.database.column();
+    const validations = ValidationBuilder.field(fieldName).min(5).build();
+    expect(validations).toEqual([new MinLengthValidation(fieldName, 5)]);
   });
 });
