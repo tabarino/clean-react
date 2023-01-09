@@ -3,9 +3,9 @@ import { BrowserRouter } from 'react-router-dom';
 import { faker } from '@faker-js/faker';
 import 'jest-localstorage-mock';
 import { render, RenderResult, fireEvent, cleanup, waitFor } from '@testing-library/react';
+import { InvalidCredentialsError } from '@/domain/errors';
 import { AuthenticationSpy, ValidationSpy } from '@/presentation/mocks';
 import Login from './login';
-import { InvalidCredentialsError } from '@/domain/errors';
 
 type SutTypes = {
   sut: RenderResult;
@@ -24,7 +24,7 @@ const makeSut = (params?: SutParams): SutTypes => {
   const sut = render(
     <BrowserRouter>
       <Login validation={validationSpy} authentication={authenticationSpy} />
-    </BrowserRouter>,
+    </BrowserRouter>
   );
   return {
     sut,

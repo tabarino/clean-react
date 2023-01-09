@@ -16,7 +16,7 @@ export class AxiosHttpClient implements HttpPostClient<any, any> {
     } catch (error) {
       return {
         statusCode: (error as httpResponseError).response.status,
-        body: (error as httpResponseError).response?.data,
+        body: (error as httpResponseError).response.data,
       };
     }
   }
