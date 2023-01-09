@@ -7,7 +7,7 @@ jest.mock('axios');
 
 type SutTypes = {
   sut: AxiosHttpClient;
-  mockedAxios: jest.Mocked<typeof axios>
+  mockedAxios: jest.Mocked<typeof axios>;
 };
 
 const makeSut = (): SutTypes => {
@@ -17,19 +17,31 @@ const makeSut = (): SutTypes => {
 };
 
 describe('AxiosHttpClient', () => {
-  test('Should call axios with correct values', () => {
-    const request = mockPostRequest();
+  test('Should return the correct statusCode and body on failure', async () => {
     const { sut, mockedAxios } = makeSut();
-    sut.post(request);
-    expect(mockedAxios.post).toHaveBeenCalledWith(request.url, request.body);
+    mockedAxios.post.mockRejectedValueOnce({
+      response: mockAxiosResult,
+    });
+    const httpResponse = await sut.post(mockPostRequest());
+    expect(httpResponse).toEqual({
+      statusCode: mockAxiosResult.status,
+      body: mockAxiosResult.data,
+    });
   });
 
-  test('Should return the correct StatusCode and body', async () => {
+  test('Should return the correct statusCode and body', async () => {
     const { sut } = makeSut();
     const httpResponse = await sut.post(mockPostRequest());
     expect(httpResponse).toEqual({
       statusCode: mockAxiosResult.status,
       body: mockAxiosResult.data,
     });
+  });
+
+  test('Should call axios with correct values', () => {
+    const request = mockPostRequest();
+    const { sut, mockedAxios } = makeSut();
+    sut.post(request);
+    expect(mockedAxios.post).toHaveBeenCalledWith(request.url, request.body);
   });
 });
